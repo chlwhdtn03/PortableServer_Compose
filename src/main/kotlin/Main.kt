@@ -2,10 +2,7 @@ import Panel.ConsolePanel
 import Panel.PortablePanel
 import Panel.TrafficPanel
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -16,6 +13,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -26,10 +24,11 @@ fun App() {
 
     MaterialTheme {
         Column(
-            modifier = Modifier.padding(Dp(16f)),
+            modifier = Modifier.padding(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             FlowRow(
-                maxItemsInEachRow = 2
+                maxItemsInEachRow = 2,
             ) {
                 PortablePanel()
                 TrafficPanel()
@@ -42,10 +41,10 @@ fun App() {
 
 fun main() = application {
 
-    val trayState = rememberTrayState()
-    val notification = rememberNotification("라우터 추가", "으악")
+
 
     Tray(
+
         icon = painterResource("idk.jpeg"),
         menu = {
             Item("Exit", onClick = { exitApplication() })
@@ -56,6 +55,8 @@ fun main() = application {
         icon = painterResource("idk.jpeg")
 
     ) {
+        val trayState = rememberTrayState()
+        val notification = rememberNotification("라우터 추가", "으악", Notification.Type.Warning)
 
         MenuBar {
             Menu("라우터") {

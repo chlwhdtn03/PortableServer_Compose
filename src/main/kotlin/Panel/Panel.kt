@@ -10,8 +10,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import java.io.OutputStream
 import java.io.PrintStream
 
@@ -62,25 +67,26 @@ fun ConsolePanel() {
     ConsoleStream(console)
 
     Column(
-        modifier = Modifier.fillMaxHeight().background(Color.Yellow)
-
+        modifier = Modifier.fillMaxHeight().border(1.dp, Color.DarkGray),
     ) {
         Box (
-            modifier = Modifier.fillMaxHeight(0.8f)
+            modifier = Modifier.fillMaxHeight(0.8f).background(Color.Black)
         ) {
 
             val stateVertical = rememberScrollState(0)
             Box(modifier = Modifier.fillMaxSize().verticalScroll(stateVertical)) {
                 Text(
-                    modifier = Modifier.fillMaxSize().background(Color.Magenta)
+                    modifier = Modifier.fillMaxSize()
                         .fillMaxHeight(0.8f),
                     text = console.value,
+                    style = TextStyle(Color.White, fontWeight = FontWeight.SemiBold)
                 )
             }
 
             VerticalScrollbar(
-                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight(),
-                adapter = rememberScrollbarAdapter(stateVertical)
+                modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight().background(Color.LightGray).padding(2.dp),
+                adapter = rememberScrollbarAdapter(stateVertical),
+
             )
 
             LaunchedEffect(console.value) { // console에 내용이 바뀔 때마다 실행됨
@@ -91,11 +97,13 @@ fun ConsolePanel() {
         }
 
         BasicTextField(
-            modifier = Modifier.background(Color.LightGray).weight(1f),
+            modifier = Modifier.weight(1f).background(Color.Black),
             value = input,
             maxLines = 1,
             singleLine = true,
+            textStyle = TextStyle(Color.White, fontWeight = FontWeight.SemiBold),
             onValueChange = { input = it },
+            cursorBrush = SolidColor(Color.White),
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
             keyboardActions = KeyboardActions(
                 onDone = {
@@ -107,6 +115,7 @@ fun ConsolePanel() {
             ),
             decorationBox = { innerTextField ->
                 Row(modifier = Modifier.wrapContentHeight(Alignment.CenterVertically).fillMaxWidth().padding(Dp(5f))) {
+                    Text("> ", style = TextStyle(Color.White, fontWeight = FontWeight.SemiBold))
                     innerTextField()
                 }
             }
