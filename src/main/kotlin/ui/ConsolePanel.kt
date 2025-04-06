@@ -1,4 +1,4 @@
-package Panel
+package ui
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -10,7 +10,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -19,42 +18,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import java.io.OutputStream
 import java.io.PrintStream
-
-/*
- 노드 관리 패널
- */
-@Composable
-fun PortablePanel() {
-    Column(
-        modifier = Modifier.fillMaxWidth(0.7f)
-            .fillMaxHeight(0.6f)
-            .background(Color.LightGray)
-    ) {
-        Row {
-            Text(text = "root (/) - GET")
-        }
-        Row {
-            Text(text = "addUser (/addUser) - POST")
-        }
-    }
-}
-
-/*
-    접속 기록 확인 패널
- */
-@Composable
-fun TrafficPanel() {
-    Column(
-        modifier = Modifier.fillMaxWidth(0.3f)
-            .fillMaxHeight(0.6f)
-            .background(Color.Cyan)
-    ) {
-        Text(text = "localhost - /")
-        Text("localhost - /")
-        Text("localhost - /")
-        Text("localhost - /")
-    }
-}
 
 /*
     프로세스 출력 패널
@@ -87,7 +50,7 @@ fun ConsolePanel() {
                 modifier = Modifier.align(Alignment.CenterEnd).fillMaxHeight().background(Color.LightGray).padding(2.dp),
                 adapter = rememberScrollbarAdapter(stateVertical),
 
-            )
+                )
 
             LaunchedEffect(console.value) { // console에 내용이 바뀔 때마다 실행됨
                 if(stateVertical.maxValue <= stateVertical.value + stateVertical.viewportSize) {
@@ -120,15 +83,7 @@ fun ConsolePanel() {
                 }
             }
         )
-
-
-
-
-
     }
-
-
-
 }
 
 /*
@@ -137,10 +92,13 @@ fun ConsolePanel() {
     추가해주면 리컴포징 되면서 콘솔창에 뜰 것
  */
 @Composable
-fun ConsoleStream(output: MutableState<String>) {
+private fun ConsoleStream(output: MutableState<String>) {
 
     val outputStream = remember {
         object : OutputStream() {
+            init {
+                println("OutputStream created")
+            }
             override fun write(b: Int) { // 단일 바이트 처리
                 output.value += b.toChar()
             }
@@ -159,7 +117,7 @@ fun ConsoleStream(output: MutableState<String>) {
 
     LaunchedEffect(Unit) { // 단 1번만 실행
         System.setOut(printStream) // 출력스트림 변경
-        println("PrintStream 초기화 완료")
+        println("printStream linked")
     }
 
 }

@@ -1,6 +1,3 @@
-import Panel.ConsolePanel
-import Panel.PortablePanel
-import Panel.TrafficPanel
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -12,9 +9,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import ui.ConsolePanel
+import ui.RouterListPanel
+import ui.TrafficListPanel
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -30,8 +29,8 @@ fun App() {
             FlowRow(
                 maxItemsInEachRow = 2,
             ) {
-                PortablePanel()
-                TrafficPanel()
+                RouterListPanel()
+                TrafficListPanel()
             }
             ConsolePanel()
 
@@ -41,10 +40,7 @@ fun App() {
 
 fun main() = application {
 
-
-
     Tray(
-
         icon = painterResource("idk.jpeg"),
         menu = {
             Item("Exit", onClick = { exitApplication() })
