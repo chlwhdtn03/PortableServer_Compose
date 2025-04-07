@@ -13,6 +13,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "PortableServer_Compose"
-include("data")
-include("ui")
+rootProject.name = "ui"

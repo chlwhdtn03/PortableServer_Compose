@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import server.PortableServer
 import ui.ConsolePanel
 import ui.RouterListPanel
 import ui.TrafficListPanel
@@ -39,7 +40,9 @@ fun App() {
 }
 
 fun main() = application {
-
+    LaunchedEffect(Unit) {
+        PortableServer()
+    }
     Tray(
         icon = painterResource("idk.jpeg"),
         menu = {
