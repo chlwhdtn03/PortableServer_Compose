@@ -12,6 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import server.PortableServer
+import server.deployVerticle
 import ui.ConsolePanel
 import ui.RouterListPanel
 import ui.TrafficListPanel
@@ -41,8 +42,9 @@ fun App() {
 
 fun main() = application {
     LaunchedEffect(Unit) {
-        PortableServer()
+        deployVerticle() // 서버 실행 먼저
     }
+
     Tray(
         icon = painterResource("idk.jpeg"),
         menu = {
