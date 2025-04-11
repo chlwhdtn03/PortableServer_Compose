@@ -22,6 +22,7 @@ import ui.TrafficListPanel
 @Preview
 fun App() {
     var text by remember { mutableStateOf("Hello, World!") }
+    val console = remember { mutableStateOf("") }
 
     MaterialTheme {
         Column(
@@ -32,9 +33,9 @@ fun App() {
                 maxItemsInEachRow = 2,
             ) {
                 RouterListPanel()
-                TrafficListPanel()
+                TrafficListPanel(console)
             }
-            ConsolePanel()
+            ConsolePanel(console)
 
         }
     }

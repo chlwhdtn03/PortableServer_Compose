@@ -3,7 +3,9 @@ package server
 import data.PortableRouter
 import data.PortableTraffic
 import io.vertx.core.Vertx
+import io.vertx.core.VertxOptions
 import io.vertx.core.http.HttpMethod
+import java.text.SimpleDateFormat
 import java.util.*
 
 val HTTP_PORT = 80
@@ -17,14 +19,33 @@ val portableRouters = arrayListOf<PortableRouter>( // SAMPLE
     PortableRouter("getUser", "/user", HttpMethod.GET),
 )
 
-val portableTraffics = arrayListOf<PortableTraffic>( // SAMPLE
-    PortableTraffic("22.20.14.70", "/sigLeader", Date()),
-    PortableTraffic("91.63.40.27", "/oldHQ", Date()),
-    PortableTraffic("22.20.14.243", "/printer", Date()),
-    PortableTraffic("91.63.6.38", "/bunker", Date()),
-    PortableTraffic("91.63.5.29", "/HQ", Date()),
-)
+val portableTraffics = arrayListOf<PortableTraffic>()
 
 fun deployVerticle() {
-    Vertx.vertx().deployVerticle(PortableServer())
+    Vertx.vertx(
+        VertxOptions()
+    ).deployVerticle(PortableServer())
+}
+
+fun addRouter(router: PortableRouter) {
+
+}
+
+fun removeRouter(router: PortableRouter) {
+
+}
+
+fun addTraffic(traffic: PortableTraffic) {
+    portableTraffics.add(traffic)
+    println("[${SimpleDateFormat("HH:mm:ss").format(traffic.time)}] ${traffic.address}가 ${traffic.route}에 요청했습니다.")
+}
+
+fun addTraffic(address: String, route: String, time: Date = Date()) {
+    addTraffic(
+        PortableTraffic(address, route, time)
+    )
+}
+
+fun removeTraffic(traffic: PortableTraffic) {
+
 }

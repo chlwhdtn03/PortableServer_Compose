@@ -7,6 +7,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import data.PortableTraffic
+import java.text.SimpleDateFormat
 
 @Composable
 fun TrafficItem(traffic: PortableTraffic) {

@@ -23,9 +23,8 @@ import java.io.PrintStream
     프로세스 출력 패널
  */
 @Composable
-fun ConsolePanel() {
+fun ConsolePanel(console: MutableState<String>) {
     var input by remember { mutableStateOf("") }
-    val console = remember { mutableStateOf("") }
 
     ConsoleStream(console)
 
