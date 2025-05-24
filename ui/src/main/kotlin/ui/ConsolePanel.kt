@@ -116,7 +116,7 @@ private fun ConsoleStream(output: MutableState<String>) {
 
     LaunchedEffect(Unit) { // 단 1번만 실행
         System.setOut(printStream) // 출력스트림 변경
-        println("printStream linked")
+        println("printStream이 연결되었습니다.")
     }
 
 }

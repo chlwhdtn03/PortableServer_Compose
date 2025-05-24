@@ -27,6 +27,7 @@ class PortableServer: AbstractVerticle() {
                 println("Failed to open server : ${server.message}")
             }
 
+
         for(route in portableRouters) { // portableRouters 등록
             router.route(route.route)
                 .method(HttpMethod.valueOf(route.method))
