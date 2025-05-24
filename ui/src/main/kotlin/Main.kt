@@ -1,7 +1,13 @@
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.DarkDefaultContextMenuRepresentation
+import androidx.compose.foundation.LightDefaultContextMenuRepresentation
+import androidx.compose.foundation.LocalContextMenuRepresentation
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.darkColors
+import androidx.compose.material.lightColors
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -25,19 +31,28 @@ fun App() {
     var text by remember { mutableStateOf("Hello, World!") }
     val console = remember { mutableStateOf("") }
 
-    MaterialTheme {
-        Column(
-            modifier = Modifier.padding(10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp)
-        ) {
-            FlowRow(
-                maxItemsInEachRow = 2,
+    MaterialTheme(
+        colors = if (isSystemInDarkTheme()) darkColors() else lightColors()
+    ) {
+        val contextMenuRepresentation = if (isSystemInDarkTheme()) {
+            DarkDefaultContextMenuRepresentation
+        } else {
+            LightDefaultContextMenuRepresentation
+        }
+        CompositionLocalProvider(LocalContextMenuRepresentation provides contextMenuRepresentation) {
+            Column(
+                modifier = Modifier.padding(10.dp),
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                RouterListPanel()
-                TrafficListPanel(console)
-            }
-            ConsolePanel(console)
+                FlowRow(
+                    maxItemsInEachRow = 2,
+                ) {
+                    RouterListPanel()
+                    TrafficListPanel(console)
+                }
+                ConsolePanel(console)
 
+            }
         }
     }
 }
