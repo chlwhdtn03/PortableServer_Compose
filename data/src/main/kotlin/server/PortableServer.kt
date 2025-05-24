@@ -33,7 +33,7 @@ class PortableServer: AbstractVerticle() {
                 .method(HttpMethod.valueOf(route.method))
                 .setName(route.name)
                 .handler { request ->
-                    request.response().setStatusCode(200)
+                    request.response().statusCode = 200
                     request.response().end("Hello World!")
                     addTraffic(request.request().remoteAddress().hostAddress(), request.request().uri())
                 }
