@@ -29,7 +29,8 @@ fun ConsolePanel(console: MutableState<String>) {
     ConsoleStream(console)
 
     Column(
-        modifier = Modifier.fillMaxHeight().border(1.dp, Color.DarkGray),
+        modifier = Modifier.fillMaxHeight()
+//            .border(1.dp, Color.DarkGray),
     ) {
         Box (
             modifier = Modifier.fillMaxHeight(0.8f).background(Color.Black)

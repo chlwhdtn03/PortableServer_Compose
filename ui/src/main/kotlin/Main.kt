@@ -16,9 +16,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import data.PortableRouter
+import dialog.DetailDialog
+import server.PortableServer
 import server.deployVerticle
+import server.portableRouters
 import ui.ConsolePanel
 import ui.RouterListPanel
 import ui.TrafficListPanel
@@ -26,7 +31,7 @@ import ui.TrafficListPanel
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 @Preview
-fun App() {
+fun App(onChangeDetail: (router: PortableRouter) -> Unit) {
     var text by remember { mutableStateOf("Hello, World!") }
     val console = remember { mutableStateOf("") }
 
@@ -46,8 +51,20 @@ fun App() {
                 FlowRow(
                     maxItemsInEachRow = 2,
                 ) {
-                    RouterListPanel()
-                    TrafficListPanel(console)
+                    Box(
+                        modifier = Modifier.fillMaxWidth(0.7f)
+                            .fillMaxHeight(0.6f)
+                            .padding(2.dp)
+                    ) {
+                        RouterListPanel(onChangeDetail)
+                    }
+                    Box(
+                        modifier = Modifier.fillMaxWidth(0.3f)
+                            .fillMaxHeight(0.6f)
+                            .padding(2.dp)
+                    ) {
+                        TrafficListPanel(console)
+                    }
                 }
                 ConsolePanel(console)
 
@@ -65,6 +82,8 @@ fun Splash() {
 
 fun main() = application {
     var askingClose by remember { mutableStateOf(false) }
+    var isDetailDialogOpen by remember { mutableStateOf(false) }
+    var detailRouter = remember { mutableStateOf<PortableRouter>(portableRouters[0]) }
 
     LaunchedEffect(Unit) {
         deployVerticle() // 서버 실행 먼저
@@ -122,8 +141,21 @@ fun main() = application {
                 Item("dummy print", onClick = { println("Setting")  })
             }
         }
+        if(isDetailDialogOpen) {
+            Window(
+                onCloseRequest = { isDetailDialogOpen = false },
+                title = "상세보기",
+                resizable = false,
+                state = rememberWindowState(width = Dp.Unspecified, height = Dp.Unspecified)
+            ) {
+                DetailDialog(detailRouter.value)
+            }
+        }
 
-        App()
+        App({ router ->
+            isDetailDialogOpen = true
+            detailRouter.value = router
+        })
     }
 }
 
